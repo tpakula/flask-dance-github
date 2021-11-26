@@ -17,3 +17,14 @@ def index():
     resp = github.get("/user")
     assert resp.ok
     return "You are @{login} on GitHub".format(login=resp.json()["login"])
+
+@app.route("/hello")
+def hello():
+    return "Hello"
+
+
+@app.route("/hello-auth")
+def hello_authorized():
+    if not github.authorized:
+        return redirect(url_for("github.login"))
+    return "Hello authorized"
